@@ -6,7 +6,7 @@ on:
     branches: [ main ]
 
 env:
-  DOCKER_IMAGE: abhishekf5/ultimate-cicd
+  DOCKER_IMAGE: brams007/ultimate-cicd
   SONAR_URL: http://54.91.149.44:9000
   GIT_REPO_NAME: Jenkins-Zero-To-Hero
   GIT_USER_NAME: brams898
