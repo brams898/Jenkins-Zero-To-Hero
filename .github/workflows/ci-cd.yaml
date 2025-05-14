@@ -7,7 +7,7 @@ on:
 
 env:
   DOCKER_IMAGE: brams007/ultimate-cicd
-  SONAR_URL: http://54.91.149.44:9000
+  SONAR_URL: http://3.90.107.221:9000
   GIT_REPO_NAME: Jenkins-Zero-To-Hero
   GIT_USER_NAME: brams898
 
@@ -45,6 +45,16 @@ jobs:
           cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && \
           docker build -t ${{ env.DOCKER_IMAGE }}:${{ github.run_number }} . && \
           docker push ${{ env.DOCKER_IMAGE }}:${{ github.run_number }}
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ env.DOCKER_IMAGE }}:${{ github.run_number }}
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
 
       - name: Update Deployment File
         run: |
